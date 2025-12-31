@@ -3,6 +3,7 @@
  * Calls Bright Data Search Engine Crawler API to find keyword rankings
  *
  * Compatible with both local Node.js development and Webflow Cloud (Cloudflare Workers)
+ * v1.0.1 - Environment variable support for Webflow Cloud
  */
 
 // Allowed origins for CORS - add your Webflow domain here
