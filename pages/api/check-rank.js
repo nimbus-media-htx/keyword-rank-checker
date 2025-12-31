@@ -8,8 +8,8 @@
 
 // Allowed origins for CORS - add your Webflow domain here
 const ALLOWED_ORIGINS = [
-  'https://your-site.webflow.io',
-  'https://your-custom-domain.com',
+  'https://www.nimbusmedia.io',
+  'https://nimbusmedia.io',
   'http://localhost:3000', // Development
 ];
 
