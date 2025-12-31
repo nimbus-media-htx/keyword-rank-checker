@@ -15,27 +15,10 @@ const ALLOWED_ORIGINS = [
 
 /**
  * Get API key from environment
- * Supports both Node.js (process.env) and Cloudflare Workers runtime
+ * Works with both local Node.js and Webflow Cloud (Cloudflare Workers)
  */
-async function getApiKey(req) {
-  // First try standard process.env (works locally and may work in Webflow Cloud)
-  if (process.env.BRIGHTDATA_API_KEY) {
-    return process.env.BRIGHTDATA_API_KEY;
-  }
-
-  // For Webflow Cloud / Cloudflare Workers, try to get from context
-  // This requires @cloudflare/next-on-pages in production
-  try {
-    const { getCloudflareContext } = await import('@cloudflare/next-on-pages');
-    const { env } = await getCloudflareContext();
-    if (env?.BRIGHTDATA_API_KEY) {
-      return env.BRIGHTDATA_API_KEY;
-    }
-  } catch {
-    // Module not available (local dev) or context not ready
-  }
-
-  return null;
+function getApiKey() {
+  return process.env.BRIGHTDATA_API_KEY || null;
 }
 
 /**
@@ -217,8 +200,8 @@ export default async function handler(req, res) {
     const cleanDomain = normalizeDomain(targetDomain.trim());
     const cleanCountry = country.trim().toLowerCase();
 
-    // Get API key (supports both Node.js and Cloudflare Workers)
-    const apiKey = await getApiKey(req);
+    // Get API key from environment
+    const apiKey = getApiKey();
 
     // Call Bright Data API
     const apiResponse = await callBrightDataAPI(cleanKeyword, cleanCountry, apiKey);
